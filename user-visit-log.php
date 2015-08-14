@@ -16,9 +16,9 @@ define( 'UVL_OPTION', 'user_visits_log' );
 define( 'UVL_TABLE', 'user_visits_log' );
 define( 'UVL_DB_VERSION', '1.0.0' );
 
+require UVL_DIR . 'inc/admin/database.php';
 if ( is_admin() )
 {
-	require UVL_DIR . 'inc/admin/database.php';
 	require UVL_DIR . 'inc/admin/dashboard.php';
 }
 else

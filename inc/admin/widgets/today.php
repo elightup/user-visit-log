@@ -15,9 +15,10 @@ if ( empty( $data ) )
 <table class="widefat">
 	<thead>
 	<tr>
-		<th>#</th>
-		<th><?php _e( 'Name', 'user-visit-log' ); ?></th>
-		<th><?php _e( 'Visits', 'user-visit-log' ); ?></th>
+		<th class="column-id">#</th>
+		<th class="column-username"><?php _e( 'Name', 'user-visit-log' ); ?></th>
+		<th class="column-name"><?php _e( 'Username', 'user-visit-log' ); ?></th>
+		<th class="column-visits"><?php _e( 'Visits', 'user-visit-log' ); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -27,12 +28,14 @@ if ( empty( $data ) )
 		$user = get_userdata( $row->user_id );
 		printf(
 			'<tr>
-				<th class="column-id">%d</th>
-				<th class="column-user">%s</th>
-				<th class="column-visits">%d</th>
+				<td class="column-id">%d</td>
+				<td class="column-name">%s</td>
+				<td class="column-username">%s</td>
+				<td class="column-visits">%d</td>
 			</tr>',
 			$k + 1,
-			$user->display_name . ' (' . $user->user_login . ')',
+			$user->display_name,
+			$user->user_login,
 			$row->count
 		);
 	}
