@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: User Visit Log
 Plugin URI: http://www.deluxeblogtips.com
