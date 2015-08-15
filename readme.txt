@@ -7,7 +7,7 @@ Tested up to: 4.2.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 
-Log user visit by day
+Track and analyze visits of logged-in users by day.
 
 == Description ==
 
