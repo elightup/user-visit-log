@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: User Visit Log
-Plugin URI: http://www.deluxeblogtips.com
+Plugin URI: http://www.deluxeblogtips.com/user-visit-log/
 Description: Log users visit by day
-Version: 1.0.0
+Version: 1.1.0
 Author: Rilwis
 Author URI: http://www.deluxeblogtips.com
 License: GPL2+
@@ -19,6 +19,7 @@ require UVL_DIR . 'inc/admin/database.php';
 if ( is_admin() )
 {
 	require UVL_DIR . 'inc/admin/dashboard.php';
+	new UVL_Dashboard;
 }
 else
 {

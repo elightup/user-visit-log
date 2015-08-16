@@ -1,46 +1,58 @@
-/* global google, UVL */
+/* global jQuery,google, UVL, ajaxurl */
 
-(function ( google )
+(function ( $, google )
 {
 	'use strict';
 
+	var chart;
+
 	/**
-	 * Callback for drawing chart
-	 *
+	 * Update data when change user, from and to dates via ajax
+	 * @return void
+	 */
+	function updateData()
+	{
+		$.get( ajaxurl, {
+			action  : 'uvl_overview_get_data',
+			_wpnonce: UVL.nonce,
+			user    : $( '#uvl-widget-overview-user' ).val(),
+			from    : $( '#uvl-widget-overview-from' ).val(),
+			to      : $( '#uvl-widget-overview-to' ).val()
+		}, function ( r )
+		{
+			if ( r.success )
+			{
+				chart.setDataTable( r.data );
+				chart.draw();
+			}
+		} );
+	}
+
+	/**
+	 * Draw chart
 	 * @return void
 	 */
 	function drawChart()
 	{
-		var data = new google.visualization.DataTable(),
-			chart = new google.visualization.LineChart( document.getElementById( 'uvl-overview-chart' ) ),
-			options = {
-				legend: 'none'
-			};
-
-		data.addColumn( 'string', UVL.dateTitle );
-		data.addColumn( 'number', UVL.visitsTitle );
-
-		UVL.overview.forEach( function ( element, index )
-		{
-			UVL.overview[index][0] = formatDate( UVL.overview[index][0] );
-			UVL.overview[index][1] = parseInt( element[1] );
+		chart = new google.visualization.ChartWrapper( {
+			chartType  : 'LineChart',
+			dataTable  : UVL.data,
+			options    : { legend: 'none' },
+			containerId: 'uvl-overview-chart'
 		} );
-		data.addRows( UVL.overview );
-
-		chart.draw( data, options );
+		chart.draw();
 	}
 
-	/**
-	 * Format a date based on user locale
-	 * @param string
-	 * @returns string
-	 */
-	function formatDate( string )
-	{
-		var date = new Date( string );
-		return date.toLocaleString( UVL.locale, { month: 'short', day: 'numeric' } );
-	}
-
-	google.load( 'visualization', '1', { 'packages': ['corechart'] } );
+	// Load Google Chart Library
+	google.load( 'visualization', '1' );
 	google.setOnLoadCallback( drawChart );
-})( google );
+
+	// Run when DOM ready
+	$( function ()
+	{
+		$( '.uvl-date' ).datepicker( {
+			dateFormat: 'yy-mm-dd'
+		} );
+		$( '#uvl-overview' ).on( 'change', ':input', updateData );
+	} );
+})( jQuery, google );
